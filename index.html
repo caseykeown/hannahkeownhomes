@@ -569,14 +569,81 @@ nav{
 .about-contact a:hover{color:var(--navy)}
 
 /* ── TESTIMONIALS ─────────────────────── */
-.t-section{padding:72px 28px;background:var(--bg)}
-.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
-.t-card{background:var(--bg-white);border-radius:var(--radius-lg);padding:32px 28px;box-shadow:var(--shadow-sm);border:1px solid rgba(28,53,87,.05);display:flex;flex-direction:column}
-.t-stars{display:flex;gap:2px;margin-bottom:16px}
-.t-star{color:var(--gold);font-size:.82rem}
-.t-quote{font-family:var(--serif);font-size:.98rem;font-style:italic;font-weight:400;line-height:1.75;color:var(--text-dark);flex:1;margin-bottom:20px}
-.t-author{font-family:var(--sans);font-size:.73rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--navy)}
-.t-context{font-family:var(--sans);font-size:.67rem;font-weight:400;color:var(--text-soft);margin-top:3px}
+/* ── CLIENT GALLERY ───────────────────── */
+.t-section{padding:72px 28px 64px;background:var(--bg)}
+
+/* Scroll track — full bleed so shadow doesn't clip */
+.t-gallery-outer{
+  position:relative;
+  margin:44px -28px 0; /* negative horizontal margin to bleed to viewport edge */
+}
+
+/* Fade-out edges hint that more content exists */
+.t-gallery-outer::before,
+.t-gallery-outer::after{
+  content:'';
+  position:absolute;top:0;bottom:0;width:56px;
+  pointer-events:none;z-index:2;
+}
+.t-gallery-outer::before{
+  left:0;
+  background:linear-gradient(to right,var(--bg) 0%,transparent 100%);
+}
+.t-gallery-outer::after{
+  right:0;
+  background:linear-gradient(to left,var(--bg) 0%,transparent 100%);
+}
+
+/* The scrollable row */
+.t-gallery{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding:8px 40px 24px; /* top:room for shadow, bottom:scrollbar clearance */
+  scrollbar-width:thin;
+  scrollbar-color:rgba(74,123,170,.35) transparent;
+}
+.t-gallery::-webkit-scrollbar{height:4px}
+.t-gallery::-webkit-scrollbar-track{background:transparent}
+.t-gallery::-webkit-scrollbar-thumb{background:rgba(74,123,170,.3);border-radius:4px}
+
+/* Individual screenshot card */
+.t-photo{
+  flex:0 0 auto;
+  width:260px;           /* portrait phone screenshot width */
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  scroll-snap-align:start;
+  cursor:zoom-in;
+  transition:transform .25s,box-shadow .25s;
+  background:var(--bg-deep);
+  /* ensure consistent height regardless of image aspect ratio */
+  aspect-ratio:9/16;
+  position:relative;
+}
+.t-photo:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:var(--shadow-lg);
+}
+.t-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  transition:transform .35s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.t-photo:hover img{transform:scale(1.03)}
+
+/* Keyboard / accessibility */
+.t-photo:focus-visible{
+  outline:2px solid var(--steel);
+  outline-offset:3px;
+}
+
 .t-cta{text-align:center;margin-top:36px}
 
 /* ── SOCIAL ───────────────────────────── */
@@ -686,7 +753,8 @@ footer{background:var(--navy);padding:52px 28px 28px}
     border-radius:0; /* corners already handled by parent overflow:hidden */
   }
   .lender-card-photo{position:absolute;inset:0;height:100%;width:100%}
-  .t-grid{grid-template-columns:1fr}
+  .t-gallery{padding:8px 16px 20px;}
+  .t-photo{width:220px;}
   .ribbon-inner{grid-template-columns:1fr}
   .ribbon-item{border-right:none;border-bottom:1px solid rgba(28,53,87,.07)}
   .ribbon-item:last-child{border-bottom:none}
@@ -891,7 +959,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
 <nav id="mainNav">
   <a href="https://hannahkeownhomes.com" class="nav-logo">
     <span class="nav-logo-name">Hannah Keown, REALTOR®</span>
-    <span class="nav-logo-sub">Schuler Bauer Real Estate Services ERA Powered · Central Kentucky</span>
+    <span class="nav-logo-sub">Schuler Bauer ERA · Central Kentucky</span>
   </a>
   <ul class="nav-links">
     <li><a href="/resources">Free Resources</a></li>
@@ -919,7 +987,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
       Elizabethtown &amp; Central Kentucky
     </div>
     <h1 class="hero-headline">
-      Refined Homes.<br>
+      Refined homes.<br>
       <em>Elevated client care.</em>
     </h1>
     <p class="hero-sub">
@@ -971,6 +1039,40 @@ footer{background:var(--navy);padding:52px 28px 28px}
   </div>
 </div>
 
+<!-- QUICK LINKS RIBBON -->
+<div class="ribbon">
+  <div class="ribbon-inner">
+    <a href="/resources" class="ribbon-item">
+      <div class="ribbon-icon">📚</div>
+      <div>
+        <div class="ribbon-title">Free Resources</div>
+        <div class="ribbon-desc">Buyer, seller &amp; timing guides</div>
+      </div>
+    </a>
+    <a href="https://hannahkeown.schulerbauer.com" target="_blank" rel="noopener" class="ribbon-item">
+      <div class="ribbon-icon">🔍</div>
+      <div>
+        <div class="ribbon-title">Search KY Homes For Sale</div>
+        <div class="ribbon-desc">Daily MLS updates · All listings</div>
+      </div>
+    </a>
+    <a href="https://hannahkeown.schulerbauer.com/selling/free-market-analysis/" target="_blank" rel="noopener" class="ribbon-item">
+      <div class="ribbon-icon">🏡</div>
+      <div>
+        <div class="ribbon-title">What's YOUR Home Worth?</div>
+        <div class="ribbon-desc">Free instant market analysis</div>
+      </div>
+    </a>
+    <a href="#get-pre-approved" class="ribbon-item">
+      <div class="ribbon-icon">✅</div>
+      <div>
+        <div class="ribbon-title">Get Pre-Approved</div>
+        <div class="ribbon-desc">Approved in 24 hours</div>
+      </div>
+    </a>
+  </div>
+</div>
+
 <!-- CURRENT LISTINGS -->
 <div class="listings-section" id="listings">
   <div class="listings-inner">
@@ -988,7 +1090,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
         >
         <div class="lc-ph">604 Sunrise Ln</div>
-        <div class="lc-badge">Pending</div>
+        <div class="lc-badge">SOLD</div>
         <div class="lc-overlay"></div>
         <div class="lc-wash"></div>
         <div class="lc-body">
@@ -1010,6 +1112,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
         >
         <div class="lc-ph">2010 Oriole Dr</div>
+        <div class="lc-badge">SOLD</div>
         <div class="lc-overlay"></div>
         <div class="lc-wash"></div>
         <div class="lc-body">
@@ -1031,7 +1134,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
         >
         <div class="lc-ph">1176 McGrew Church Rd</div>
-        <div class="lc-badge">Pending</div>
+        <div class="lc-badge">SOLD</div>
         <div class="lc-overlay"></div>
         <div class="lc-wash"></div>
         <div class="lc-body">
@@ -1177,7 +1280,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
       <a href="https://www.northpointe.com/home-lending/get-started/dennie-dowell/" target="_blank" rel="noopener" class="lender-card reveal d1">
         <div class="lender-photo-col">
           <img
-            src="https://github.com/caseykeown/web-dev/raw/refs/heads/main/IMG_2597.jpeg"
+            src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/dennie-dowell.jpg"
             alt="Dennie Dowell – Northpointe Bank, Elizabethtown KY"
             class="lender-card-photo"
             loading="lazy"
@@ -1244,24 +1347,55 @@ footer{background:var(--navy);padding:52px 28px 28px}
       <div class="section-eyebrow reveal">Client Stories</div>
       <h2 class="section-title reveal d1">100% recommended<br><em>by every client.</em></h2>
     </div>
-    <div class="t-grid">
-      <div class="t-card reveal">
-        <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
-        <p class="t-quote">"Hannah was positive and enthusiastic about helping us sell our home of 34 years. She was knowledgeable, never pushy, and gave us full confidence in her ability. Hannah was the perfect choice for us."</p>
-        <div class="t-author">Bridget Jackson</div>
-        <div class="t-context">Seller · Grayson County · Google Review</div>
-      </div>
-      <div class="t-card reveal d1">
-        <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
-        <p class="t-quote">"We are military affiliated and moving back to the States. Hannah showed us houses virtually, answered our million questions, and went above and beyond. We felt supported the entire process — she now feels like family."</p>
-        <div class="t-author">Kristi Leigh</div>
-        <div class="t-context">Buyer · Military Relocation · Facebook Review</div>
-      </div>
-      <div class="t-card reveal d2">
-        <div class="t-stars"><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span></div>
-        <p class="t-quote">"Hannah made the selling process super simple. She took care of everything — all we had to do was show up and sign our names. Very kind and genuinely cared for her clients."</p>
-        <div class="t-author">Ashley Fisher</div>
-        <div class="t-context">Seller · Hardin County · Facebook Review</div>
+    <div class="t-gallery-outer">
+      <div class="t-gallery" id="clientGallery">
+
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-1.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-1.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-2.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-2.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-3.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-3.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-4.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-4.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-5.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-5.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-6.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-6.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-7.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-7.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-8.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-8.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-9.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-9.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-10.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-10.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-11.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-11.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-12.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/corey-12.JPG" alt="Client review – Corey" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/seth-1.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/seth-1.JPG" alt="Client review – Seth" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/seth-2.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/seth-2.JPG" alt="Client review – Seth" loading="lazy">
+        </div>
+        <div class="t-photo" role="button" tabindex="0" data-src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/seth-3.JPG" aria-label="Client review screenshot">
+          <img src="https://raw.githubusercontent.com/caseykeown/hannahkeownhomes/main/clients/seth-3.JPG" alt="Client review – Seth" loading="lazy">
+        </div>
+
       </div>
     </div>
     <div class="t-cta reveal">
@@ -1505,15 +1639,14 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: 0.07, rootMargin: '0px 0px -28px 0px' });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-/* ── AWARD LIGHTBOX ──────────────────── */
+/* ── SHARED LIGHTBOX ─────────────────── */
 (function() {
-  const lightbox   = document.getElementById('awardLightbox');
-  const lbImg      = document.getElementById('awardLightboxImg');
-  const lbClose    = document.getElementById('awardLightboxClose');
-  const awardCards = document.querySelectorAll('.award-card');
+  const lightbox = document.getElementById('awardLightbox');
+  const lbImg    = document.getElementById('awardLightboxImg');
+  const lbClose  = document.getElementById('awardLightboxClose');
 
-  function openLightbox(img, alt) {
-    lbImg.src = img;
+  function openLightbox(src, alt) {
+    lbImg.src = src;
     lbImg.alt = alt || '';
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1526,39 +1659,35 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     lbImg.src = '';
   }
 
-  awardCards.forEach(card => {
-    const img = card.querySelector('.award-img');
-    if (!img) return;
-
-    // Desktop hover: handled by CSS (scale + hint icon)
-    // Click / tap: open lightbox on all devices
-    card.addEventListener('click', () => {
-      openLightbox(img.src, img.alt);
+  function attachTriggers(selector, getSrc, getAlt) {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener('click', () => openLightbox(getSrc(el), getAlt(el)));
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(getSrc(el), getAlt(el)); }
+      });
     });
+  }
 
-    // Keyboard: Enter / Space triggers lightbox
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openLightbox(img.src, img.alt);
-      }
-    });
-  });
+  /* Award cards */
+  attachTriggers(
+    '.award-card',
+    el => { const img = el.querySelector('.award-img'); return img ? img.src : ''; },
+    el => { const img = el.querySelector('.award-img'); return img ? img.alt : ''; }
+  );
 
-  // Close on button, backdrop click, or Escape
+  /* Client gallery photos */
+  attachTriggers(
+    '.t-photo',
+    el => el.dataset.src || (el.querySelector('img') ? el.querySelector('img').src : ''),
+    el => { const img = el.querySelector('img'); return img ? img.alt : 'Client review'; }
+  );
+
+  /* Close handlers */
   lbClose.addEventListener('click', closeLightbox);
-
-  lightbox.addEventListener('click', e => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
   });
-
-  // Prevent image click from closing when clicking directly on the image
   lbImg.addEventListener('click', e => e.stopPropagation());
 })();
 </script>
