@@ -736,6 +736,10 @@ footer{background:var(--navy);padding:52px 28px 28px}
   .lenders-grid{grid-template-columns:1fr}
 }
 
+@media(max-width:960px){
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+}
 @media(max-width:768px){
   nav{padding:0 16px}
   .nav-links{display:none}
@@ -968,6 +972,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
   </a>
   <ul class="nav-links">
     <li><a href="/resources">Free Resources</a></li>
+    <li><a href="/finance/">Finance</a></li>
     <li><a href="https://hannahkeown.schulerbauer.com" target="_blank" rel="noopener">Search KY Homes For Sale</a></li>
     <li><a href="https://hannahkeown.schulerbauer.com/selling/free-market-analysis/" target="_blank" rel="noopener">What's YOUR Home Worth?</a></li>
     <li><a href="#get-pre-approved" class="nav-cta">Get Pre-Approved</a></li>
@@ -979,6 +984,7 @@ footer{background:var(--navy);padding:52px 28px 28px}
 
 <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
   <a href="/resources">Free Resources</a>
+  <a href="/finance/">Finance</a>
   <a href="https://hannahkeown.schulerbauer.com" target="_blank" rel="noopener">Search KY Homes For Sale</a>
   <a href="https://hannahkeown.schulerbauer.com/selling/free-market-analysis/" target="_blank" rel="noopener">What's YOUR Home Worth?</a>
   <a href="#get-pre-approved" class="mobile-cta">Get Pre-Approved</a>
@@ -1474,6 +1480,7 @@ VA Certified | Complimentary 2-10 Home Warranty for Sellers
         <div class="footer-col-title">Quick Links</div>
         <ul class="footer-links">
           <li><a href="/resources">Free Resources</a></li>
+    <li><a href="/finance/">Finance</a></li>
           <li><a href="https://hannahkeown.schulerbauer.com" target="_blank" rel="noopener">Search KY Homes</a></li>
           <li><a href="https://hannahkeown.schulerbauer.com/selling/free-market-analysis/" target="_blank" rel="noopener">Home Value</a></li>
           <li><a href="#get-pre-approved">Get Pre-Approved</a></li>
@@ -1558,7 +1565,7 @@ document.addEventListener('keydown', e => {
 });
 mobileLinks.forEach(link => link.addEventListener('click', () => setMobileMenu(false)));
 window.addEventListener('resize', () => {
-  if (window.innerWidth > 768) setMobileMenu(false);
+  if (window.innerWidth > 960) setMobileMenu(false);
 });
 
 /* ── NAV SHADOW ON SCROLL ─────────────── */
